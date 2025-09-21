@@ -31,7 +31,7 @@ async def analyze_image(request: AnalyzeImageRequest):
             raise HTTPException(status_code=400, detail=f"Invalid image data: {str(e)}")
 
         # Call Bedrock to analyze the image
-        model_id = "eu.anthropic.claude-sonnet-4-20250514-v1:0"
+        model_id = "us.anthropic.claude-sonnet-4-20250514-v1:0"
         
         body = {
             "anthropic_version": "bedrock-2023-05-31",
