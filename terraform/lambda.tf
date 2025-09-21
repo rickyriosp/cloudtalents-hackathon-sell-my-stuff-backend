@@ -49,6 +49,8 @@ resource "aws_lambda_function" "sellmystuff" {
   role          = aws_iam_role.sellmystuff_lambda.arn
   handler       = "sell_my_stuff.lambda_handler.lambda_handler"
 
+  timeout = 300
+
   layers = [aws_lambda_layer_version.sellmystuff_dependencies.arn]
 
   runtime = local.python_version
