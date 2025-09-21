@@ -46,13 +46,6 @@ resource "aws_lambda_function" "sellmystuff" {
   layers = [aws_lambda_layer_version.sellmystuff_dependencies.arn]
 
   runtime = local.python_version
-
-  environment {
-    variables = {
-      ENVIRONMENT = "dev"
-      LOG_LEVEL   = "info"
-    }
-  }
 }
 
 # Permission for API Gateway to invoke Lambda
