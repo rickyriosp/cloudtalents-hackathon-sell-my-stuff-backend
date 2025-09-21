@@ -41,7 +41,7 @@ resource "aws_lambda_function" "sellmystuff" {
 
   function_name = "sellmystuff_lambda"
   role          = aws_iam_role.example.arn
-  handler       = "lambda_handler"
+  handler       = "lambda_handlersell_my_stuff.lambda_handler.lambda_handler"
 
   layers = [aws_lambda_layer_version.sellmystuff_dependencies.arn]
 
