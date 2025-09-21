@@ -1,19 +1,12 @@
 # IAM policy for Bedrock access
-data "aws_iam_policy_document" "bedrock_access" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "bedrock:InvokeModel",
-      "bedrock:InvokeModelWithResponseStream",
-      "bedrock:ListFoundationModels"
-    ]
-    resources = ["*"]
-  }
-}
-
 resource "aws_iam_policy" "bedrock_access" {
-  name   = "lambda_bedrock_access"
-  policy = data.aws_iam_policy_document.bedrock_access.json
+  name = "lambda_bedrock_access"
+  policy = templatefile(
+    "${path.module}/files/iam/lambda_bedrock_policy.json",
+    {
+      aws_lambda_arn = aws_lambda_function.sellmystuff.arn
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_bedrock" {
@@ -21,21 +14,15 @@ resource "aws_iam_role_policy_attachment" "lambda_bedrock" {
   policy_arn = aws_iam_policy.bedrock_access.arn
 }
 
-data "aws_iam_policy_document" "cloudwatch_access" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ]
-    resources = ["*"]
-  }
-}
-
+# IAM policy for CloudWatch Logs access
 resource "aws_iam_policy" "cloudwatch_access" {
-  name   = "lambda_cloudwatch_access"
-  policy = data.aws_iam_policy_document.cloudwatch_access.json
+  name = "lambda_cloudwatch_access"
+  policy = templatefile(
+    "${path.module}/files/iam/lambda_logs_policy.json",
+    {
+      aws_lambda_arn = aws_lambda_function.sellmystuff.arn
+    }
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_cloudwatch" {

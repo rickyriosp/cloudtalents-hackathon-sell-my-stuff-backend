@@ -1,11 +1,12 @@
-# Existing S3 bucket with Lambda layer zip file
-data "aws_s3_bucket" "lambda_bucket" {
-  bucket = local.lambda_bucket
-}
-
+# Existing S3 bucket with Lambda layer zip files and function code
 data "aws_s3_object" "lambda_package" {
   bucket = local.lambda_bucket
   key    = "artifacts/lambda_package.zip"
+}
+
+data "aws_s3_object" "lambda_dependencies" {
+  bucket = local.lambda_dependencies
+  key    = "artifacts/dependencies.zip"
 }
 
 # IAM role for Lambda execution
@@ -29,8 +30,9 @@ resource "aws_iam_role" "sellmystuff_lambda" {
 
 # Common dependencies layer
 resource "aws_lambda_layer_version" "sellmystuff_dependencies" {
-  s3_bucket = data.aws_s3_bucket.lambda_bucket.id
-  s3_key    = local.lambda_dependencies
+  s3_bucket         = data.aws_s3_object.lambda_package.bucket.id
+  s3_key            = local.lambda_dependencies
+  s3_object_version = data.aws_s3_object.lambda_dependencies.version_id
 
   layer_name  = "sellmystuff_dependencies_layer"
   description = "Common dependencies for sellmystuff Lambda functions"
@@ -41,7 +43,7 @@ resource "aws_lambda_layer_version" "sellmystuff_dependencies" {
 
 # Lambda function
 resource "aws_lambda_function" "sellmystuff" {
-  s3_bucket         = data.aws_s3_bucket.lambda_bucket.id
+  s3_bucket         = data.aws_s3_object.lambda_package.bucket.id
   s3_key            = local.lambda_function
   s3_object_version = data.aws_s3_object.lambda_package.version_id
 
