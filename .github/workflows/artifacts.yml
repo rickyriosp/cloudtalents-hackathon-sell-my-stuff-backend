@@ -1,0 +1,54 @@
+name: Generate and upload Python artifacts
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Package Python project
+        run: |
+          ./package_code.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-artifacts
+          path: sell_my_stuff/*.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: package
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: python-artifacts
+    
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ secrets.AWS_S3_ROLE_ARN }}
+          role-session-name: GitHubActions-Deploy
+          aws-region: ${{ secrets.AWS_REGION }}
+    
+    
