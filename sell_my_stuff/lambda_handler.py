@@ -27,7 +27,7 @@ handler = Mangum(
 
 def lambda_handler(event, context):
     """
-    AWS Lambda handler function that processes API Gateway events. Test pipeline
+    AWS Lambda handler function that processes API Gateway events.
     """
     try:
         logger.info(f"Received event: {event}")
