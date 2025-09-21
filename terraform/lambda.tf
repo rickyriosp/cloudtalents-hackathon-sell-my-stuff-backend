@@ -3,6 +3,11 @@ data "aws_s3_bucket" "lambda_bucket" {
   bucket = local.lambda_bucket
 }
 
+data "aws_s3_object" "lambda_package" {
+  bucket = local.lambda_bucket
+  key    = "artifacts/lambda_package.zip"
+}
+
 # IAM role for Lambda execution
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -36,8 +41,9 @@ resource "aws_lambda_layer_version" "sellmystuff_dependencies" {
 
 # Lambda function
 resource "aws_lambda_function" "sellmystuff" {
-  s3_bucket = data.aws_s3_bucket.lambda_bucket.id
-  s3_key    = local.lambda_function
+  s3_bucket         = data.aws_s3_bucket.lambda_bucket.id
+  s3_key            = local.lambda_function
+  s3_object_version = data.aws_s3_object.lambda_package.version_id
 
   function_name = "sellmystuff_lambda"
   role          = aws_iam_role.sellmystuff_lambda.arn
