@@ -5,8 +5,8 @@ data "aws_s3_object" "lambda_package" {
 }
 
 data "aws_s3_object" "lambda_dependencies" {
-  bucket = local.lambda_dependencies
-  key    = "artifacts/dependencies.zip"
+  bucket = local.lambda_bucket
+  key    = local.lambda_dependencies
 }
 
 # IAM role for Lambda execution
