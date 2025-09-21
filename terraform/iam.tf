@@ -25,9 +25,9 @@ data "aws_iam_policy_document" "cloudwatch_access" {
   statement {
     effect = "Allow"
     actions = [
-      "cloudwatch:PutMetricData",
-      "cloudwatch:GetMetricData",
-      "cloudwatch:ListMetrics"
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
     ]
     resources = ["*"]
   }
