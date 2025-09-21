@@ -34,7 +34,7 @@ jobs:
           name: python-artifacts
           path: ./*.zip
 
-  deploy:
+  upload:
     runs-on: ubuntu-latest
     needs: package
 
