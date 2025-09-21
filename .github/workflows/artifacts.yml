@@ -27,6 +27,7 @@ jobs:
       - name: Package Python project
         run: |
           ./package_code.sh
+          ls -ltra
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
