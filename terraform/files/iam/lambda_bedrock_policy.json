@@ -4,12 +4,7 @@
     {
       "Effect": "Allow",
       "Action": ["bedrock:InvokeModel"],
-      "Resource": "*",
-      "Condition": {
-        "ArnLike": {
-          "aws:SourceArn": "${aws_lambda_arn}"
-        }
-      }
+      "Resource": "*"
     }
   ]
 }

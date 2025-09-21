@@ -4,12 +4,7 @@
     {
       "Effect": "Allow",
       "Action": ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
-      "Resource": "*",
-      "Condition": {
-        "ArnLike": {
-          "aws:SourceArn": "${aws_lambda_arn}"
-        }
-      }
+      "Resource": "*"
     }
   ]
 }
