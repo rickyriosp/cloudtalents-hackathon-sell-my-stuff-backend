@@ -40,7 +40,7 @@ resource "aws_lambda_function" "sellmystuff" {
   s3_key    = local.lambda_function
 
   function_name = "sellmystuff_lambda"
-  role          = aws_iam_role.example.arn
+  role          = aws_iam_role.sellmystuff_lambda.arn
   handler       = "sell_my_stuff.lambda_handler.lambda_handler"
 
   layers = [aws_lambda_layer_version.sellmystuff_dependencies.arn]
