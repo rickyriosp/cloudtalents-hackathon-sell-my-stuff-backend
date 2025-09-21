@@ -18,11 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v6
-      #   with:
-      #     python-version: 'pypy3.11'
-      #     cache: 'pip' # caching pip dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies
 
       - name: Package Python project
         run: |
