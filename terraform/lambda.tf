@@ -30,7 +30,7 @@ resource "aws_iam_role" "sellmystuff_lambda" {
 
 # Common dependencies layer
 resource "aws_lambda_layer_version" "sellmystuff_dependencies" {
-  s3_bucket         = data.aws_s3_object.lambda_package.bucket.id
+  s3_bucket         = data.aws_s3_object.lambda_package.bucket
   s3_key            = local.lambda_dependencies
   s3_object_version = data.aws_s3_object.lambda_dependencies.version_id
 
@@ -43,7 +43,7 @@ resource "aws_lambda_layer_version" "sellmystuff_dependencies" {
 
 # Lambda function
 resource "aws_lambda_function" "sellmystuff" {
-  s3_bucket         = data.aws_s3_object.lambda_package.bucket.id
+  s3_bucket         = data.aws_s3_object.lambda_package.bucket
   s3_key            = local.lambda_function
   s3_object_version = data.aws_s3_object.lambda_package.version_id
 
