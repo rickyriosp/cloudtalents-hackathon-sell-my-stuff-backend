@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'terraform/**'
+      - '.github/workflows/infra.yml'
   workflow_run:
     workflows: ['Generate and upload Python artifacts']
     types:
@@ -28,7 +29,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: ${{ secrets.AWS_S3_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_ARN }}
           role-session-name: GitHubActions-Deploy
           aws-region: ${{ secrets.AWS_REGION }}
 
